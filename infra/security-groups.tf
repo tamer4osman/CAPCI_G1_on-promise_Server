@@ -20,6 +20,14 @@ resource "aws_security_group" "on-promise_app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+
   # OUTBOUND
   egress {
     description = "Access to the internet"
@@ -42,7 +50,15 @@ resource "aws_security_group" "db_on-promise_sg" {
   # INBOUND 
   ingress {
     description = "Access to our Flask app"
-    from_port   = 3306
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    security_groups = [aws_security_group.on-promise_app_sg.id]
+  }
+
+  ingress {
+    description = "Access to our Flask app"
+    from_port   = 5432
     to_port     = 3306
     protocol    = "tcp"
     security_groups = [aws_security_group.on-promise_app_sg.id]

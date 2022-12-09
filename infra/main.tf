@@ -15,7 +15,7 @@ data "aws_subnet" "public_subnet" {
 }
 
 # AMI FOR UBUNTU image
-data "aws_ami" "amz_linux_image" {
+data "aws_ami" "aws_ubuntu_image" {
   most_recent = true
   owners      = [var.amzn_ami_owner]
 
