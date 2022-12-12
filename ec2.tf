@@ -14,7 +14,7 @@ resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.ami_name.id
   instance_type          = var.instance_type
   subnet_id              = data.aws_subnet.public_subnet.id
-  key_name               = aws_key_pair.my-keypair.key_name 
+  key_name               = var.keypair_name
   vpc_security_group_ids = [aws_security_group.web_security_group.id]
   user_data = base64encode(templatefile("${path.module}/user-data-web.sh",
     {
@@ -32,7 +32,7 @@ resource "aws_instance" "ec2_db" {
   ami                    = data.aws_ami.ami_name.id
   instance_type          = var.instance_type
   subnet_id              = data.aws_subnet.privat_subnet.id
-  key_name               = aws_key_pair.my-keypair.key_name 
+  key_name               = var.keypair_name
   vpc_security_group_ids = [aws_security_group.db_security_group.id]
   user_data              = base64encode(templatefile("${path.module}/user-data-db.sh", {}))
 
